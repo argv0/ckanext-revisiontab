@@ -1,0 +1,38 @@
+{% ckan_extends %}
+
+  {# Custom headline for the revision tab #}
+  {% block page_heading %}
+
+      {% if h.tab_type() == 'revision' %}
+          {# {{ pkg.title or pkg.name }} #}
+
+          {# TODO: multi-lingual #}
+          Revisions for {{ pkg.title or pkg.name }}
+
+          {% if pkg.state.startswith('draft') %}
+            [{{ _('Draft') }}]
+          {% endif %}
+
+          {% if pkg.state == 'deleted' %}
+            [{{ _('Deleted') }}]
+          {% endif %}
+
+      {% else %}
+          {{ super() }}
+      {% endif %}
+
+  {% endblock %}
+
+  {% block package_notes %}
+      {% if pkg.notes and h.tab_type() == 'default' %}
+        <div class="notes embedded-content">
+          {{ h.render_markdown(pkg.notes) }}
+        </div>
+      {% endif %}
+  {% endblock %}
+
+  {% block package_tags %}
+      {% if h.tab_type() == 'default' %}
+          {{ super() }}
+      {% endif %}
+  {% endblock %}
