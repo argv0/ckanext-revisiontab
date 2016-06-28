@@ -4,7 +4,7 @@
   <thead>
     <tr>
       <th>{{ _('Revision') }}</th> {# {{ _('Timestamp') }} #}
-      <th></th>
+      <th>{{ _('Details') }}</th>
       {#
       <th>{{ _('Author') }}</th>
       <th>{{ _('Log Message') }}</th>
@@ -19,8 +19,7 @@
           <a href="{{ h.url_for(controller='package', action='read',id='%s@%s' % (pkg_dict.name, rev.timestamp))}}" title="{{_('Read dataset as of %s') % rev.timestamp }}">{{ h.render_datetime(rev.timestamp, with_hours=True) }}</a>
         </td>
         <td class="dataset-label">
-          {# link_for rev.id | truncate(10), controller='revision', action='read', id=rev.id #}
-          {% link_for _('Details'), controller='revision', action='read', id=rev.id %}
+          {% link_for rev.id | truncate(8), controller='revision', action='read', id=rev.id %}
         </td>
         {#
         <td class="dataset-details">{{ h.linked_user(rev.author) }}</td>
