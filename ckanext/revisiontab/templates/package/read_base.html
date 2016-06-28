@@ -6,6 +6,10 @@
 
   {{ h.build_nav_icon('dataset_revision', _('Revisions'), id=pkg.name, icon='shield') }}
 
+  {# TODO
+	<li><a href="/dataset/history/{{pkg.name}}"><i class="icon-shield"></i> {{ _('Revisions') }}</a></li>
+  #}
+
   {{ h.build_nav_icon('dataset_groups', _('Groups'), id=pkg.name) }}
   {{ h.build_nav_icon('dataset_activity', _('Activity Stream'), id=pkg.name) }}
 {% endblock %}

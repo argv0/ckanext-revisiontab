@@ -11,6 +11,18 @@ import re
 import logging
 log = logging.getLogger(__name__)
 
+from ckan.logic.action.get import package_revision_list
+
+import ckan.lib.base as base
+
+from ckan import model
+from ckan.model import Session, Package
+
+from ckan.controllers.revision import RevisionController
+
+from routes.mapper import SubMapper
+
+
 
 class RTPlugin(p.SingletonPlugin):
     """RTPlugin
@@ -35,7 +47,7 @@ class RTPlugin(p.SingletonPlugin):
         }
 
 
-    def check_tab_type(self):
+    def is_revision_tab(self):
         return re.search('/dataset/([^/]+)/(revision)$', h.full_current_url())
 
 
@@ -45,7 +57,7 @@ class RTPlugin(p.SingletonPlugin):
         # that CKAN will use this plugin's custom templates.
         tk.add_template_directory(config, 'templates')
         # inject custom scripts and css
-        tk.add_resource('fanstatic', 'revisiontab')
+        # tk.add_resource('fanstatic', 'revisiontab')
 
 
     p.implements(p.IRoutes, inherit=True)
@@ -61,13 +73,18 @@ class RTPlugin(p.SingletonPlugin):
         return entity
 
     def before_map(self, map):
-        """Implements Iroutes.before_map
-        Add our custom tab handler"""
-        map.connect('dataset_revision',
-                    '/dataset/{id}/revision',
-                    controller='ckanext.revisiontab.plugin:RTController',
-                    action='show',
-                    ckan_icon='sitemap')
+        """
+        Implements Iroutes.before_map
+        Add our custom tab handler
+        """
+
+        with SubMapper(map, controller='ckan.controllers.package:PackageController') as m:
+            m.connect('dataset_revision',
+                '/dataset/revision/{id}',
+                action='history',
+                ckan_icon='sitemap'
+            )
+
         return map
 
     def after_create(self, context, pkg_dict):
@@ -91,24 +108,24 @@ class RTPlugin(p.SingletonPlugin):
     def before_index(self, pkg_dict):
         return pkg_dict
 
-    def before_view(self, pkg_dict):
-        """
-        Filter out revision resources from normal resources
-        Inactive resources are shown on their own tab
-        """
-
-        isRevisionView = self.check_tab_type()
-
-        if isRevisionView:
-            self.set_tab_type('revision')
-            pkg_dict['resources'] = [ elem for elem in pkg_dict['resources'] if elem.get('state', False) != 'active' ]
-        else:
-            self.set_tab_type('default')
-            pkg_dict['resources'] = [ elem for elem in pkg_dict['resources'] if elem.get('state', False) == "active" ]
-
-        # log.info("pkg_dict: %s" % str(pkg_dict))
-
-        return pkg_dict
+    # def before_view(self, pkg_dict):
+    #     """
+    #     Filter out revision resources from normal resources
+    #     Inactive resources are shown on their own tab
+    #     """
+    #     context = {'model': model, 'session': Session, 'ignore_auth': True} # 'user': self._get_user_name()
+    #     isRevisionView = self.is_revision_tab()
+    #     if isRevisionView:
+    #         self.set_tab_type('revision')
+    #         revision_list = package_revision_list(context, {'id': pkg_dict['id']})
+    #         log.info("revision_list: %s" % str(revision_list))
+    #         # pkg_dict['resources'] = revision_list # [ elem for elem in pkg_dict['resources'] if elem.get('state', False) != 'active' ]
+    #         pkg_dict['resources'] = [ elem for elem in pkg_dict['resources'] if elem.get('state', False) != 'active' ]
+    #     else:
+    #         self.set_tab_type('default')
+    #         pkg_dict['resources'] = [ elem for elem in pkg_dict['resources'] if elem.get('state', False) == "active" ]
+    #     # log.info("pkg_dict: %s" % str(pkg_dict))
+    #     return pkg_dict
 
     def read(self, entity):
         return entity
@@ -119,10 +136,12 @@ class RTPlugin(p.SingletonPlugin):
 # Controllers
 # -----------
 
-class RTController(PackageController):
-    """ Revision Tab controller """
+# class RTController(RevisionController):
+    # """ Revision Tab controller """
 
-    def show(self, id):
-        # do the default display for package controller "read" action
-        return PackageController.read(self, id)
+    # def show(self, id):
+    #     # do the default display for package controller "read" action
+    #     return PackageController.read(self, id)
 
+    # def read(self, id):
+    #     RevisionController.read(self, id)
