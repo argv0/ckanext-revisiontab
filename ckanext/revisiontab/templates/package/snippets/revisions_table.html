@@ -18,10 +18,12 @@
     {% for rev in pkg_revisions %}
       <tr>
         <td class="dataset-details">
-          <a href="{{ h.url_for(controller='package', action='read', id='%s@%s' % (pkg_dict.name, rev.timestamp))}}" title="{{_('Read dataset as of %s') % rev.timestamp }}">{{ h.render_datetime(rev.timestamp, with_hours=True) }}</a>
           {% if latest %}
+            <a href="{{ h.url_for(controller='package', action='read', id='%s' % pkg_dict.name)}}" title="{{_('Read dataset as of %s') % rev.timestamp }}">{{ h.render_datetime(rev.timestamp, with_hours=True) }}</a>
             (latest)
             {% set latest = 0 %}
+          {% else %}
+              <a href="{{ h.url_for(controller='package', action='read', id='%s@%s' % (pkg_dict.name, rev.timestamp))}}" title="{{_('Read dataset as of %s') % rev.timestamp }}">{{ h.render_datetime(rev.timestamp, with_hours=True) }}</a>
           {% endif %}
         </td>
         <td class="dataset-label">
