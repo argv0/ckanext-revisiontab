@@ -7,20 +7,8 @@ ckanext-revisiontab
    :alt: Revision tab
 
 ------------
-Requirements
-------------
-
-For example, you might want to mention here which versions of CKAN this
-extension works with.
-
-
-------------
 Installation
 ------------
-
-.. Add any additional install steps to the list below.
-   For example installing any non-Python dependencies or adding any required
-   config settings.
 
 To install ckanext-revisiontab:
 
@@ -45,12 +33,7 @@ To install ckanext-revisiontab:
 Config Settings
 ---------------
 
-Document any optional config settings here. For example::
-
-    # The minimum number of hours to wait before re-checking a resource
-    # (optional, default: 24).
-    ckanext.revisiontab.some_setting = some_default_value
-
+n/a
 
 ------------------------
 Development Installation
