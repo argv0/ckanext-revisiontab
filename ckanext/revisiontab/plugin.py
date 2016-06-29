@@ -38,6 +38,8 @@ class RTPlugin(p.SingletonPlugin):
 
     tabtype = 'default'
 
+    admin_only = False
+
     # ----------------
     # Template Helpers
     # ----------------
@@ -50,6 +52,7 @@ class RTPlugin(p.SingletonPlugin):
         # add a new template helper
         return {
             'tab_type': self.get_tab_type
+            'admin_only': self.admin_only
         }
 
     p.implements(p.IConfigurer)
@@ -68,7 +71,7 @@ class RTPlugin(p.SingletonPlugin):
         Add our custom tab handler
         """
 
-        admin_only = pluginconf.get('ckanext.revisiontab.admin_only', False)
+        self.admin_only = pluginconf.get('ckanext.revisiontab.admin_only', False)
 
         # if c and c.userobj and c.userobj.name:
         #     username = c.userobj.name

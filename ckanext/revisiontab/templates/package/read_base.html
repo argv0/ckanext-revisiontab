@@ -6,7 +6,7 @@
 
   {{ h.build_nav_icon('dataset_read', _('Dataset'), id=pkg.name) }}
 
-  {% if h.check_access('sysadmin') %}
+  {% if (h.admin_only and h.check_access('sysadmin')) or not h.admin_only %}
     {{ h.build_nav_icon('dataset_revision', _('Revisions'), id=pkg.name, icon='shield') }}
   {% endif %}
 
