@@ -51,7 +51,7 @@ class RTPlugin(p.SingletonPlugin):
     def get_helpers(self):
         # add a new template helper
         return {
-            'tab_type': self.get_tab_type
+            'tab_type': self.get_tab_type,
             'admin_only': self.admin_only
         }
 
