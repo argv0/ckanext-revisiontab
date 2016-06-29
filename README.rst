@@ -37,7 +37,7 @@ Specify whether the revision tab is visible for administrators only::
 
     ckanext.revisiontab.admin_only = False
 
-If the above setting is not defined (or False), the tab will be visible to everyone (including guests).
+If the above setting is not defined (or Falsy), the tab will be visible to everyone (including guests).
 
 
 ------------------------

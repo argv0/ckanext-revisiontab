@@ -20,8 +20,14 @@ from ckan.model import Session, Package
 
 from ckan.controllers.revision import RevisionController
 
+from logic import NotAuthorized
+
 from routes.mapper import SubMapper
 
+import pylons.config as pluginconf # to get the config setting for this plugin
+
+from ckan.common import c
+from ckan import authz as auth
 
 
 class RTPlugin(p.SingletonPlugin):
@@ -61,6 +67,27 @@ class RTPlugin(p.SingletonPlugin):
         Implements Iroutes.before_map
         Add our custom tab handler
         """
+
+        admin_only = pluginconf.get('ckanext.revisiontab.admin_only', False)
+
+        # if c and c.userobj and c.userobj.name:
+        #     username = c.userobj.name
+        # else:
+        #     username = model.User.get(username)
+
+        # if admin_only and auth.is_sysadmin(username):
+
+        # admin-only setting
+        # if admin_only and c and c.is_sysadmin:
+
+        # add_tab = True
+        # try:
+        #     context = {'model': model, 'user': c.user, 'auth_user_obj': c.userobj}
+        #     if admin_only and not tk.check_access('sysadmin', context):
+        #         add_tab = False
+        # except NotAuthorized:
+        #     add_tab = False
+        # if add_tab:
 
         with SubMapper(map, controller='ckan.controllers.package:PackageController') as m:
             m.connect('dataset_revision',
