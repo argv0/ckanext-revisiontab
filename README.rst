@@ -33,7 +33,12 @@ To install ckanext-revisiontab:
 Config Settings
 ---------------
 
-n/a
+Specify whether the revision tab is visible for administrators only::
+
+    ckanext.revisiontab.admin_only = False
+
+If the above setting is not defined (or False), the tab will be visible to everyone (including guests).
+
 
 ------------------------
 Development Installation
