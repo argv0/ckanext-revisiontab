@@ -21,7 +21,7 @@ setup(
     long_description=long_description,
 
     # The project's main homepage.
-    url='http://na/revisiontab',
+    url='https://github.com/joetm/ckanext-revisiontab',
 
     # Author details
     author='''Jonas Oppenlaender''',
