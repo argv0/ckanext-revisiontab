@@ -1,26 +1,16 @@
+# coding=UTF-8
 """ Revision Tab extension """
 
 import ckan.plugins as p
 import ckan.plugins.toolkit as tk
-
-from ckan.controllers.package import PackageController
 import ckan.lib.helpers as h
 
-import re
+# from ckan.controllers.package import PackageController
 
 import logging
 log = logging.getLogger(__name__)
 
-from ckan.logic.action.get import package_revision_list
-
-import ckan.lib.base as base
-
-from ckan import model
-from ckan.model import Session, Package
-
-from ckan.controllers.revision import RevisionController
-
-from logic import NotAuthorized
+# from logic import NotAuthorized
 
 from routes.mapper import SubMapper
 
@@ -30,7 +20,10 @@ from ckan.common import c
 from ckan import authz as auth
 
 
-class RTPlugin(p.SingletonPlugin):
+from ckanext.switzerland.plugin import OgdchLanguagePlugin
+
+
+class RTPlugin(OgdchLanguagePlugin): # p.SingletonPlugin
     """RTPlugin
 
     Shows the list of revisions on a separate tab
@@ -57,11 +50,16 @@ class RTPlugin(p.SingletonPlugin):
 
     p.implements(p.IConfigurer)
     def update_config(self, config):
-        # Add this plugin's templates dir to CKAN's extra_template_paths, so
-        # that CKAN will use this plugin's custom templates.
+        # Add this plugin's templates dir to CKAN's extra_template_paths
         tk.add_template_directory(config, 'templates')
         # inject custom scripts and css
         # tk.add_resource('fanstatic', 'revisiontab')
+
+
+    # p.implements(p.IPackageController, inherit=True)
+    # def before_view(self, pkg_dict):
+    #     log.debug("xxxxxxxxxxxxxxxxxxxxxxxx Translating the package")
+    #     return super(RTPlugin, self).before_view(pkg_dict)
 
 
     p.implements(p.IRoutes, inherit=True)
@@ -92,7 +90,8 @@ class RTPlugin(p.SingletonPlugin):
         #     add_tab = False
         # if add_tab:
 
-        with SubMapper(map, controller='ckan.controllers.package:PackageController') as m:
+        # ckan.controllers.package:PackageController
+        with SubMapper(map, controller='package') as m:
             m.connect('dataset_revision',
                 '/dataset/revision/{id}',
                 action='history',

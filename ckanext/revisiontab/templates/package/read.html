@@ -23,6 +23,7 @@
 
   {% endblock %}
 
+  {# remove notes on revision tab
   {% block package_notes %}
       {% if pkg.notes and h.tab_type() == 'default' %}
         <div class="notes embedded-content">
@@ -30,9 +31,12 @@
         </div>
       {% endif %}
   {% endblock %}
+  #}
 
+  {# remove tags on revision tab
   {% block package_tags %}
       {% if h.tab_type() == 'default' %}
           {{ super() }}
       {% endif %}
   {% endblock %}
+  #}
