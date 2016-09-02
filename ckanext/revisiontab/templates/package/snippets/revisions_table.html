@@ -34,8 +34,8 @@
         <td class="dataset-details">{{ rev.message }}</td>
         #}
         <td nowrap="nowrap">
-          {{ h.radio('selected1', rev.id, checked=(loop.first)) }}
-          {{ h.radio('selected2', rev.id, checked=(loop.last)) }}
+          <input type="radio" name="selected1" value={{ rev.id }} checked={{ loop.first }}/>
+          <input type="radio" name="selected2" value={{ rev.id }} checked={{ loop.last }}/>
         </td>
       </tr>
     {% endfor %}

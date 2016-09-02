@@ -20,10 +20,7 @@ from ckan.common import c
 from ckan import authz as auth
 
 
-from ckanext.switzerland.plugin import OgdchLanguagePlugin
-
-
-class RTPlugin(OgdchLanguagePlugin): # p.SingletonPlugin
+class RTPlugin(p.SingletonPlugin):
     """RTPlugin
 
     Shows the list of revisions on a separate tab
